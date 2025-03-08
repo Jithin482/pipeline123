@@ -1,5 +1,5 @@
-module github.com/dapplux/deployment-template
+module github.com/Jithin482/pipeline123
 
-go 1.23.3
+go 1.21
 
 require github.com/stretchr/testify v1.10.0 // indirect
