@@ -35,17 +35,17 @@ jobs:
 
       - name: Copy application to server
         env:
-          SERVER_IP: ${{ secrets.SERVER_PUBLIC_IP }}  # Store your server's public IP in GitHub Secrets
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}  # Store your SSH private key in GitHub Secrets
+          EC2_HOST: ${{ secrets.EC2_HOST }}  # Use EC2_HOST instead of SERVER_PUBLIC_IP
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}  # Use EC2_SSH_KEY instead of SSH_PRIVATE_KEY
         run: |
           mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa my-app ubuntu@$SERVER_IP:/home/ubuntu/my-app
+          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa my-app ubuntu@$EC2_HOST:/home/ubuntu/my-app
 
       - name: Run the application on the server
         env:
-          SERVER_IP: ${{ secrets.SERVER_PUBLIC_IP }}
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          EC2_HOST: ${{ secrets.EC2_HOST }}  # Use EC2_HOST instead of SERVER_PUBLIC_IP
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}  # Use EC2_SSH_KEY instead of SSH_PRIVATE_KEY
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@$SERVER_IP "chmod +x /home/ubuntu/my-app && nohup /home/ubuntu/my-app &"
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@$EC2_HOST "chmod +x /home/ubuntu/my-app && nohup /home/ubuntu/my-app &"
