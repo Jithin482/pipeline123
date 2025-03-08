@@ -2,7 +2,7 @@ name: Deploy Hello Go to EC2 (with auto ECR creation)
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "main" ]
 
 jobs:
   create-and-deploy:
